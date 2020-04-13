@@ -73,22 +73,22 @@ void insertData() {
             Data data;
             Column* column = *it;
             cout << "Ingrese dato para " << column -> getName() << " (" << column ->getType() << "): ";
-            if(column -> getType == "string") {
+            if(column -> getType() == "string") {
                 cin >> cadena;
                 data.setCadena(cadena);
                 data.setValue();
                 data.setKey(key);
-            } else if(column -> getType == "char") {
+            } else if(column -> getType() == "char") {
                 cin >> caracter;
                 data.setCaracter(caracter);
                 data.setValue();
                 data.setKey(key);
-            } else if(column -> getType == "int") {
+            } else if(column -> getType() == "int") {
                 cin >> number;
                 data.setNumber(number);
                 data.setValue();
                 data.setKey(key);
-            }else if(column -> getType == "double") {
+            }else if(column -> getType() == "double") {
                 cin >> decimal;
                 data.setDecimal(decimal);
                 data.setValue();
