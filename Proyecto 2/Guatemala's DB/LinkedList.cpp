@@ -1,37 +1,32 @@
 #include "LinkedList.hpp"
 
 /* Constructor */
-template <typename T>
-LinkedList<T>::LinkedList() {
+LinkedList::LinkedList() {
     setHeader(NULL);
     setEnding(NULL);
 }
 
 /* Metodos modificadores de nodos */
-template <typename T>
-void LinkedList<T>::setHeader(Node<T> *head) {
+void LinkedList::setHeader(List *head) {
     this -> header = head;
 }
 
-template <typename T>
-void LinkedList<T>::setEnding(Node<T> *end) {
+void LinkedList::setEnding(List *end) {
     this -> ending = end;
 }
 
 /* Metodos accesores */
-template <typename T>
-Node<T>* LinkedList<T>::getHeader() {
+List* LinkedList::getHeader() {
     return this -> header;
 }
 
-template <typename T>
-Node<T>* LinkedList<T>::getEnding() {
+List* LinkedList::getEnding() {
     return this -> ending;
 }
 
-template <typename T>
-void LinkedList<T>::insert(T data) {
-    Node<T> *auxiliar = new Node<T>(data);
+/* Para insertar arboles */
+void LinkedList::insert(AVLTree *tree, int index) {
+    List *auxiliar = new List(tree, index);
     if(header ==  NULL) {
         setHeader(auxiliar);
         setEnding(header);
@@ -41,28 +36,21 @@ void LinkedList<T>::insert(T data) {
     }
 }
 
-/*
-template <typename T>
-void LinkedList<T>::insert(T data, int index) {
-    Node<T> *auxiliar = new Node<T>(data);
-    if(header ==  NULL) {
-        setHeader(auxiliar);
-        header -> setIndex(0);
-        setEnding(header);
-        ending -> setIndex(1);
-    } else {
-        auxiliar -> setIndex(ending -> getIndex() + 1);
-        ending -> setRight(auxiliar);
-        setEnding(ending -> getRight());
+void LinkedList::insert(Data data, int index) {
+    int counter = 0;
+    for(List *temp = this -> header; temp != NULL; temp = temp -> getRight()) {
+        counter++;
+        if(counter == index) {
+            AVLTree* tree = temp -> getTree();
+            tree -> insert(data);
+        }
     }
-} */
+} 
 
-template <typename T>
-void LinkedList<T>::destroyList(Node<T> *node) {
+void LinkedList::destroyList(List *List) {
 
 }
 
-template <typename T>
-LinkedList<T>::~LinkedList() {
+LinkedList::~LinkedList() {
 
 }

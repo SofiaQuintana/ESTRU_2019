@@ -5,27 +5,23 @@
 using namespace std;
 
 /* Constructor */
-template <typename T>
-AVLTree<T>::AVLTree() {
+AVLTree::AVLTree() {
     //Sin raiz, es decir arbol vacio.
     setRoot(NULL); 
 }
 
 /* Accesor a la raiz del arbol AVL */
-template <typename T>
-Node<T>* AVLTree<T>::getRoot() {
+Node* AVLTree::getRoot() {
     return this -> root;
 }
 
 /* Modificador de raiz del arbol AVL */
-template <typename T>
-void AVLTree<T>::setRoot(Node<T> *root) {
+void AVLTree::setRoot(Node *root) {
     this -> root = root;
 }
 
 /* Elimina cada una de las hojas del arbol */
-template <typename T>
-void AVLTree<T>::destroyTree(Node<T> *leaf) {
+void AVLTree::destroyTree(Node *leaf) {
     if(leaf != NULL) {
         destroyTree(leaf -> getLeft());
         destroyTree(leaf -> getRight());
@@ -35,33 +31,29 @@ void AVLTree<T>::destroyTree(Node<T> *leaf) {
 
 /* Llama al metodo encargado de eliminar cada hoja del arbol, 
  * pasandole como parametro la raiz del mismo. */
-template <typename T>
-void AVLTree<T>::destroyTree() {
+void AVLTree::destroyTree() {
     destroyTree(getRoot());
 }
 
 /* Destructor */
-template <typename T>
-AVLTree<T>::~AVLTree() {
+AVLTree::~AVLTree() {
     destroyTree();
 }
 
 /* Calcula la altura del arbol AVL dado */
-template <typename T>
-int AVLTree<T>::height(Node<T> *leaf) {
-    int height = 0;
+int AVLTree::height(Node* leaf) {
+    int altura = 0;
     if(leaf != NULL) {
         int leftHeight = height(leaf -> getLeft());
         int rightHeight = height(leaf -> getRight());
         int maxHeight = max(leftHeight, rightHeight);
-        height = maxHeight + 1;
+        altura = maxHeight + 1;
     }
-    return height;
+    return altura;
 }
 
 /* Calcula el factor de equilibrio entre c/u de los sub arboles. */
-template <typename T>
-int AVLTree<T>::difference(Node<T> *leaf) {
+int AVLTree::difference(Node *leaf) {
     int leftHeight = height(leaf -> getLeft());
     int rightHeight = height(leaf -> getRight());
     int balanceFactor = leftHeight - rightHeight;
@@ -69,9 +61,8 @@ int AVLTree<T>::difference(Node<T> *leaf) {
 }
 
 /* Combinacion de rotacion a la derecha, seguida de rotacion a la derecha */
-template <typename T>
-Node<T>* AVLTree<T>::rightRotation(Node<T> *parent) {
-    Node<T> *auxiliar;
+Node* AVLTree::rightRotation(Node *parent) {
+    Node *auxiliar;
     auxiliar = parent -> getRight();
     parent -> setRight(auxiliar -> getLeft());
     auxiliar -> setLeft(parent);
@@ -79,9 +70,8 @@ Node<T>* AVLTree<T>::rightRotation(Node<T> *parent) {
 }
 
 /* Combinacion de rotacion a la izquierda, seguida de rotacion a la izquierda */
-template <typename T>
-Node<T>* AVLTree<T>::leftRotation(Node<T> *parent) {
-    Node<T> *auxiliar;
+Node* AVLTree::leftRotation(Node *parent) {
+    Node *auxiliar;
     auxiliar = parent -> getLeft();
     parent -> setLeft(auxiliar -> getRight());
     auxiliar -> setRight(parent);
@@ -89,18 +79,16 @@ Node<T>* AVLTree<T>::leftRotation(Node<T> *parent) {
 }
 
 /* Combinacion de rotacion a la izquierda, seguida de rotacion a la derecha */
-template <typename T>
-Node<T>* AVLTree<T>::doubleLeftRotation(Node<T> *parent) {
-    Node<T> *auxiliar;
+Node* AVLTree::doubleLeftRotation(Node *parent) {
+    Node *auxiliar;
     auxiliar = parent -> getLeft();
     parent -> setLeft(rightRotation(auxiliar));
     return leftRotation(parent);
 }
 
 /* Combinacion de rotacion a la derecha, seguida de rotacion a la izquierda */
-template <typename T>
-Node<T>* AVLTree<T>::doubleRightRotation(Node<T> *parent) {
-    Node<T> *auxiliar;
+Node* AVLTree::doubleRightRotation(Node *parent) {
+    Node *auxiliar;
     auxiliar = parent -> getRight();
     parent -> setRight(leftRotation(auxiliar));
     return rightRotation(parent);
@@ -108,8 +96,7 @@ Node<T>* AVLTree<T>::doubleRightRotation(Node<T> *parent) {
 
 /* Realiza el balance del arbol AVL, mediante las rotaciones correspondientes
  * haciendo uso del factor de equilibrio entre sub arboles. */
-template <typename T>
-Node<T>* AVLTree<T>::balance(Node<T> *leaf) {
+Node* AVLTree::balance(Node *leaf) {
     int balanceFactor = difference(leaf);
     if(balanceFactor > 1) {
         if(difference(leaf -> getLeft()) > 0)
@@ -125,36 +112,35 @@ Node<T>* AVLTree<T>::balance(Node<T> *leaf) {
     return leaf;
 }
 
-template <typename T>
-Node<T>* AVLTree<T>::insert(Node<T> *leaf, T data) {
+Node* AVLTree::insert(Node *leaf, Data data) {
+    double value = data.getValue();
     if(leaf == NULL) {
-        leaf = new Node<T>(data);
+        leaf = new Node(data);
         return leaf;
-    } else if( data <  leaf -> getData()) {
+    } else if( value <  leaf -> getData().getValue()) {
         leaf -> setLeft(insert(leaf -> getLeft(), data));
         leaf = balance(leaf);
-    } else if( data >= leaf -> getData()) {
+    } else if( value >= leaf -> getData().getValue()) {
         leaf -> setRight(insert(leaf -> getRight(), data));
         leaf = balance(leaf);
     }
     return leaf;
 }
 
-template <typename T>
-void AVLTree<T>::insert(T data) {
+void AVLTree::insert(Data data) {
     if(this -> root != NULL) {
         setRoot(insert(getRoot(), data));
     } else {
-        this -> root = new Node<T>(data);
+        this -> root = new Node(data);
     }
 }
 
-template <typename T>
-Node<T>* AVLTree<T>::search(Node<T> *parent, T data) {
-    if(leaf != NULL) {
-        if(data == parent -> getData()) 
+Node* AVLTree::search(Node *parent, Data data) {
+    int value = data.getValue();
+    if(parent != NULL) {
+        if(value == parent -> getData().getValue()) 
             return parent;
-        if(data < parent -> getData())
+        if(value < parent -> getData().getValue())
             return search(parent -> getLeft(), data);
         else 
             return search(parent -> getRight(), data);
@@ -163,7 +149,6 @@ Node<T>* AVLTree<T>::search(Node<T> *parent, T data) {
     }
 }
 
-template <typename T>
-Node<T>* AVLTree<T>::search(T data) {
+Node* AVLTree::search(Data data) {
     return search(getRoot(), data);
 }

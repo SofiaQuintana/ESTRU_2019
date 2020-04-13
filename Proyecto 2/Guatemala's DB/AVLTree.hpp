@@ -1,31 +1,31 @@
 #ifndef AVLTREE_HPP
 #define AVLTREE_HPP
 #include "Node.hpp"
+#include "Data.hpp"
 
-template <class T> class AVLTree {
+class AVLTree {
     private:
-        Node<T> *root;
-
-        Node<T>* insert(Node<T> *node, T data);
-        void destroyTree(Node<T> *leaf);
-        Node<T>* search(Node<T> *leaf, T data);
+        Node* root;
+        Node* insert(Node *node, Data data);
+        void destroyTree(Node *leaf);
+        Node* search(Node *leaf, Data data);
 
     public:
         AVLTree();
         ~AVLTree();
 
-        Node<T>* getRoot();
-        void setRoot(Node<T> *root);
+        Node* getRoot();
+        void setRoot(Node *root);
 
-        void insert(T data);
-        Node<T>* search(T data);
+        void insert(Data data);
+        Node* search(Data data);
         void destroyTree();
-        int height(Node<T>* leaf);
-        int difference(Node<T>* leaf);
-        Node<T>* balance(Node<T>* leaf);
-        Node<T>* rightRotation(Node<T>* leaf);
-        Node<T>* leftRotation(Node<T>* leaf);
-        Node<T>* doubleRightRotation(Node<T>* leaf);
-        Node<T>* doubleLeftRotation(Node<T>* leaf);
+        int height(Node* leaf);
+        int difference(Node* leaf);
+        Node* balance(Node* leaf);
+        Node* rightRotation(Node* leaf);
+        Node* leftRotation(Node* leaf);
+        Node* doubleRightRotation(Node* leaf);
+        Node* doubleLeftRotation(Node* leaf);
 };
 #endif /* AVLTREE_HPP */

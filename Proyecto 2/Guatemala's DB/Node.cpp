@@ -1,61 +1,43 @@
 #include "Node.hpp"
-#include <iostream>
 
 /* Constructores */
-template <typename T>
-Node<T>::Node(T data) {
+Node::Node(Data data) {
     setData(data);
     setLeft(NULL);
     setRight(NULL);
-}
-
-template <typename T>
-Node<T>::Node(T data, int index) {
-    setData(data);
-    setLeft(NULL);
-    setRight(NULL);
-    setIndex(index);
 }
 
 /* Metodos accesores (Getters) */
-template <typename T>
-T Node<T>::getData() {
+Data Node::getData() {
     return this -> data;
 }
 
-template <typename T>
-Node<T>* Node<T>::getLeft() {
+Node* Node::getLeft() {
     return this -> left;
 }
 
-template <typename T>
-Node<T>* Node<T>::getRight() {
+Node* Node::getRight() {
     return this -> right;
 }
 
-template <typename T>
-int Node<T>::getIndex() {
+int Node::getIndex() {
     return this -> index;
 }
 
 /* Metodos modificadores (Setters) */
-template <typename T>
-void Node<T>::setData(T data) {
+void Node::setData(Data data) {
     this -> data = data;
 }
 
-template <typename T>
-void Node<T>::setLeft(Node<T> *left) {
+void Node::setLeft(Node *left) {
     this -> left = left;
 }
 
-template <typename T>
-void Node<T>::setRight(Node<T> *right) {
+void Node::setRight(Node *right) {
     this -> right = right;
 }
 
-template <typename T>
-void Node<T>::setIndex(int index) {
+void Node::setIndex(int index) {
     this -> index = index;
 }
  

@@ -1,25 +1,23 @@
-#include <iostream>
 #ifndef NODE_HPP
 #define NODE_HPP
+#include "Data.hpp"
 
-template <class T> class Node {
+class Node {
     private:
-        T data;
-        Node<T> *left;
-        Node<T> *right;
+        Data data;;
+        Node *left;
+        Node *right;
         int index;
 
     public:
-        Node(T data);
-        Node(T data, int index);
-        Node<T>* getLeft();
-        Node<T>* getRight();
+        Node(Data);
+        Node* getLeft();
+        Node* getRight();
         int getIndex();
-
-        T getData();
-        void setLeft(Node<T> *left);
-        void setRight(Node<T> *right);
-        void setData(T data);
+        Data getData();
+        void setLeft(Node*);
+        void setRight(Node*);
+        void setData(Data);
         void setIndex(int);
 }; 
 #endif /* NODE_HPP */

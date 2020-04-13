@@ -1,25 +1,25 @@
 #ifndef LINKEDLIST_HPP
 #define LINKEDLIST_HPP
-#include "Node.hpp"
+#include "List.hpp"
 
-template <class T> class LinkedList {
+class LinkedList {
     private:
-        Node<T> *header;
-        Node<T> *ending;
+        List *header;
+        List *ending;
 
-        void destroyList(Node<T>*);
+        void destroyList(List*);
 
     public:
         LinkedList();
         ~LinkedList();
 
-        void setHeader(Node<T> *header);
-        void setEnding(Node<T> *ending);
-        Node<T>* getHeader();
-        Node<T>* getEnding();
+        void setHeader(List *header);
+        void setEnding(List *ending);
+        List* getHeader();
+        List* getEnding();
 
-        void insert(T data);
-        void insert(T data, int index);
-        Node<T>* get(int index);
+        void insert(AVLTree *tree, int index);
+        void insert(Data data, int index);
+        List* get(int index);
 };
 #endif /* LINKEDLIST_HPP */

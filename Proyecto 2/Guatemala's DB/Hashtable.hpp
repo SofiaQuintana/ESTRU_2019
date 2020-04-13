@@ -2,15 +2,19 @@
 #define HASHTABLE_HPP
 #include "LinkedList.hpp"
 
-template <class T> class Hashtable {
+class Hashtable {
     private:
-        LinkedList<T> list;
-    
+        LinkedList *list;
+        int nodeAmount;
+
     public:
         Hashtable();
         ~Hashtable();
-        void hash(String type, T data);
-        int getStringValue(String data);
-        int getCharValue(char data);
+        int hash(Data data);
+        LinkedList* getList();
+        void initList();
+        void addData(Data data);
+        void setAmount(int);
+        int getAmount();
 };
 #endif /* HASHTABLE_HPP */
