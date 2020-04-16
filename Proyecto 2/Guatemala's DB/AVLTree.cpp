@@ -1,7 +1,9 @@
 #include "AVLTree.hpp"
 #include <algorithm>
+#include <iostream>
 #define pow2(n) (1 << (n))
 
+using namespace std;
 /* Constructor */
 AVLTree::AVLTree() {
     //Sin raiz, es decir arbol vacio.
@@ -137,6 +139,7 @@ list<Data*> AVLTree::search(Node *parent, string selection, list<Data*> data) {
     if(parent != NULL) {
         if(selection == "*") {
             data.push_back(parent -> getData());
+            cout << parent -> getData();
             search(parent -> getLeft(), selection, data);
             search(parent -> getRight(), selection, data);
         } else if(selection == parent -> getData() -> getColumn()) 

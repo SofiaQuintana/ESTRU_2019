@@ -1,5 +1,6 @@
 #include "DBDriver.hpp"
 #include <sstream>
+#include <iostream>
 
 DBDriver::DBDriver(QueryDriver* queries) {
     this -> queries = queries;
@@ -37,11 +38,13 @@ string DBDriver::selectDB(int index) {
 }
 
 Table* DBDriver::getSelectedTable(string name) {
+    cout << selectedDB;
     tables = selectedDB -> getTables();
     list<Table*>::iterator it;
     for(it = tables.begin(); it != tables.end(); it++) {
         Table* aux = *it;
         if(aux ->getName() == name) {
+            cout << "Se encontro tabla";
             return aux;
         }
     }
@@ -136,5 +139,41 @@ string DBDriver::insertData(string query) {
             counter++;
         }
         return "\n---Datos insertados con exito---\n";
+    }
+}
+
+string DBDriver::getTables() {
+    string message;
+    int index = 1;
+    if(tables.empty()) {
+        return "\n---No hay tablas en esta base de datos, cree una nueva---\n";
+    } else {
+        tables = selectedDB -> getTables();
+        list<Table*>::iterator it;
+        for(it = tables.begin(); it != tables.end(); it++) {
+            Table* aux = *it;
+            message += to_string(index) + ". " + aux -> getName() + " \n";
+            index++;
+        }
+        return message;
+    }
+}
+string DBDriver::dataAmountInTable(string table) {
+    int amount = 0;
+    selectedTable = getSelectedTable(table);
+    if(selectedTable == NULL) {
+        return "\n----Esta tabla no existe----\n";
+    } else {
+        Hashtable* map = selectedTable -> getHash();
+        list<Data*> data = map -> getList() -> getData("*");
+        if(data.empty()) {
+            return "\n---No hay datos en esta tabla---\n";
+        } else {
+            list<Data*>::iterator it;
+            for(it = data.begin(); it != data.end(); it++) {
+                amount++;
+            }
+            return "\n--La cantidad de datos en la tabla es: " + to_string(amount) + "\n";
+        }
     }
 }

@@ -1,5 +1,4 @@
 #include "LinkedList.hpp"
-#include <iterator>
 
 /* Constructor */
 LinkedList::LinkedList() {

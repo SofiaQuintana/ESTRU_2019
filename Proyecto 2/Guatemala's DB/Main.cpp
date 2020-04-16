@@ -20,21 +20,21 @@
 
 using namespace std;
 
-list<Database*> databases;
-list<Table*> selectedTables;
 QueryDriver* queries;
 DBDriver* driver;
-Database* selectedDB;
-Table* selectedTable;
-Column* selectedColumn;
-Column* whereColumn;
-list<Column*> columns;
-Hashtable *table;
-int key = 0;
 
-void mainMenu();
-void selectDB();
-void getSelectedTable(string);
+void tableReport() {
+    string selected;
+    string message;
+    printf("\n---Seleccione la tabla---\n");
+    message = driver -> getTables();
+    cout << message;
+    printf("\nIngrese el nombre de la tabla seleccionada: \n");
+    cin >> selected;
+    cout << selected;
+    message = driver -> dataAmountInTable(selected);
+    cout << message;
+}
 
 void selectDB() {
     int selected;
@@ -75,12 +75,37 @@ void createDB() {
     cout << message;
 }
 
+void reportsMenu() {
+    int option = 1;
+    int selected;
+    string message;
+
+    while(option != 0) {
+        printf("\n ----Select Report----\n");
+        printf("   [1] Cantidad de datos en todas las bases de datos.\n");
+        printf("   [2] Cantidad de datos en tabla.\n");
+        printf("   [3] Cantidad de columnas de un mismo tipo de dato en tabla.\n");
+        printf("   [4] Cantidad de columnas de todas las bases de datos.\n");
+        printf("   [5] Main Menu\n\n");
+        printf("Insert Option: ");
+        cin >> selected;
+
+        switch (selected) {
+        case 1: tableReport(); break;
+        case 2: ; break;
+        case 3: ; break;
+        case 4:               break;
+        case 5: option = 0; break;
+        default: cout << "\n Insert a valid option [1-5]"; break;
+        }
+    }
+
+}
+
 void instructionMenu() {
     int option = 1;
     int selected;
     string message;
-    queries = new QueryDriver();
-    driver = new DBDriver(queries);
 
     while(option != 0) {
         printf("\n ----Select Instruction----\n");
@@ -100,15 +125,16 @@ void instructionMenu() {
         case 4:               break;
         case 5: insertData(); break;
         case 6: option = 0; break;
-        default: cout << "\n Insert a valid option [1-5]"; break;
+        default: cout << "\n Insert a valid option [1-6]"; break;
         }
     }
 }
 
 void mainMenu() {
-    key = 0;
     int option = 1;
     int selectedOption;
+    queries = new QueryDriver();
+    driver = new DBDriver(queries);
 
     while(option != 0) {
         printf("----Guatemala's DB----\n");
@@ -126,7 +152,8 @@ void mainMenu() {
                 instructionMenu();
             break;
             case 2:
-                //Reports menu
+                //Goes to reports menu
+                reportsMenu();
             break;
             case 3:
                 //DB graphics menu

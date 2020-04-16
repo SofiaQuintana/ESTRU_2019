@@ -29,6 +29,8 @@ class DBDriver {
         string createTable(string);
         void createColumn(string, string, Table*);
         string getDatabases();
+        string getTables();
         string insertData(string);
+        string dataAmountInTable(string);
 };
 #endif /* DBDRIVER_HPP */
