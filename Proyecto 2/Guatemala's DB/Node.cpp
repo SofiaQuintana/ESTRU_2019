@@ -1,14 +1,14 @@
 #include "Node.hpp"
 
 /* Constructores */
-Node::Node(Data data) {
+Node::Node(Data* data) {
     setData(data);
     setLeft(NULL);
     setRight(NULL);
 }
 
 /* Metodos accesores (Getters) */
-Data Node::getData() {
+Data* Node::getData() {
     return this -> data;
 }
 
@@ -25,7 +25,7 @@ int Node::getIndex() {
 }
 
 /* Metodos modificadores (Setters) */
-void Node::setData(Data data) {
+void Node::setData(Data* data) {
     this -> data = data;
 }
 

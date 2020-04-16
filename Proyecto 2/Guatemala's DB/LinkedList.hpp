@@ -2,6 +2,8 @@
 #define LINKEDLIST_HPP
 #include "List.hpp"
 
+using namespace std;
+
 class LinkedList {
     private:
         List *header;
@@ -17,9 +19,10 @@ class LinkedList {
         void setEnding(List *ending);
         List* getHeader();
         List* getEnding();
-
+        list<AVLTree*> getTrees();
+        list<Data*> getData(string);
         void insert(AVLTree *tree, int index);
-        void insert(Data data, int index);
+        void insert(Data* data, int index);
         List* get(int index);
 };
 #endif /* LINKEDLIST_HPP */

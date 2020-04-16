@@ -15,7 +15,7 @@ class Table {
         Table();
         Table(std::string name);
         void addColumn(std::string, std::string);
-        void addTuple(Data data);
+        void addTuple(Data* data);
         void setName(std::string);
         std::string getName();
         std::list<Column*> getColumns();

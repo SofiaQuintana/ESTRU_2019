@@ -5,8 +5,8 @@ Hashtable::Hashtable() {
     initList();
 }
 
-int Hashtable::hash(Data data) {
-    int value = data.getValue();
+int Hashtable::hash(Data* data) {
+    int value = data -> getValue();
     int index = value % getAmount();
     return index;
 }
@@ -19,7 +19,7 @@ void Hashtable::initList() {
     }
 }
 
-void Hashtable::addData(Data data) {
+void Hashtable::addData(Data* data) {
     this -> list -> insert(data, hash(data));
 }
 

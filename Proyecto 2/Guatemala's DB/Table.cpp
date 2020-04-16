@@ -16,7 +16,7 @@ void Table::addColumn(string name, string type) {
     this -> columns.push_back(column);
 }
 
-void Table::addTuple(Data data) {
+void Table::addTuple(Data* data) {
     this -> hashmap -> addData(data);
 }
 

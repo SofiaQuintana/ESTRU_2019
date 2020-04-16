@@ -4,20 +4,20 @@
 
 class Node {
     private:
-        Data data;;
+        Data *data;;
         Node *left;
         Node *right;
         int index;
 
     public:
-        Node(Data);
+        Node(Data*);
         Node* getLeft();
         Node* getRight();
         int getIndex();
-        Data getData();
+        Data* getData();
         void setLeft(Node*);
         void setRight(Node*);
-        void setData(Data);
+        void setData(Data*);
         void setIndex(int);
 }; 
 #endif /* NODE_HPP */

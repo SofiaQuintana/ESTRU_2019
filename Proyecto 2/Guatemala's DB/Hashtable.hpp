@@ -10,10 +10,10 @@ class Hashtable {
     public:
         Hashtable();
         ~Hashtable();
-        int hash(Data data);
+        int hash(Data* data);
         LinkedList* getList();
         void initList();
-        void addData(Data data);
+        void addData(Data* data);
         void setAmount(int);
         int getAmount();
 };

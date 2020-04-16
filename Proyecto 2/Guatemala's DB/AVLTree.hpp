@@ -2,13 +2,17 @@
 #define AVLTREE_HPP
 #include "Node.hpp"
 #include "Data.hpp"
+#include <string>
+#include <list>
+
+using namespace std;
 
 class AVLTree {
     private:
         Node* root;
-        Node* insert(Node *node, Data data);
+        Node* insert(Node *node, Data* data);
         void destroyTree(Node *leaf);
-        Node* search(Node *leaf, Data data);
+        list<Data*> search(Node *, std::string, list<Data*>);
 
     public:
         AVLTree();
@@ -17,8 +21,8 @@ class AVLTree {
         Node* getRoot();
         void setRoot(Node *root);
 
-        void insert(Data data);
-        Node* search(Data data);
+        void insert(Data* data);
+        list<Data*> search(std::string);
         void destroyTree();
         int height(Node* leaf);
         int difference(Node* leaf);

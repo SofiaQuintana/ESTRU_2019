@@ -2,8 +2,6 @@
 #include <algorithm>
 #define pow2(n) (1 << (n))
 
-using namespace std;
-
 /* Constructor */
 AVLTree::AVLTree() {
     //Sin raiz, es decir arbol vacio.
@@ -112,22 +110,22 @@ Node* AVLTree::balance(Node *leaf) {
     return leaf;
 }
 
-Node* AVLTree::insert(Node *leaf, Data data) {
-    double value = data.getValue();
+Node* AVLTree::insert(Node *leaf, Data* data) {
+    double value = data -> getValue();
     if(leaf == NULL) {
         leaf = new Node(data);
         return leaf;
-    } else if( value <  leaf -> getData().getValue()) {
+    } else if( value <  leaf -> getData() -> getValue()) {
         leaf -> setLeft(insert(leaf -> getLeft(), data));
         leaf = balance(leaf);
-    } else if( value >= leaf -> getData().getValue()) {
+    } else if( value >= leaf -> getData() -> getValue()) {
         leaf -> setRight(insert(leaf -> getRight(), data));
         leaf = balance(leaf);
     }
     return leaf;
 }
 
-void AVLTree::insert(Data data) {
+void AVLTree::insert(Data* data) {
     if(this -> root != NULL) {
         setRoot(insert(getRoot(), data));
     } else {
@@ -135,20 +133,24 @@ void AVLTree::insert(Data data) {
     }
 }
 
-Node* AVLTree::search(Node *parent, Data data) {
-    int value = data.getValue();
+list<Data*> AVLTree::search(Node *parent, string selection, list<Data*> data) {
     if(parent != NULL) {
-        if(value == parent -> getData().getValue()) 
-            return parent;
-        if(value < parent -> getData().getValue())
-            return search(parent -> getLeft(), data);
-        else 
-            return search(parent -> getRight(), data);
+        if(selection == "*") {
+            data.push_back(parent -> getData());
+            search(parent -> getLeft(), selection, data);
+            search(parent -> getRight(), selection, data);
+        } else if(selection == parent -> getData() -> getColumn()) 
+            data.push_back(parent -> getData());
+            search(parent -> getLeft(), selection, data);
+            search(parent -> getRight(), selection, data);
     } else {
-        return NULL;
+        return data;
     }
+    return data;
 }
 
-Node* AVLTree::search(Data data) {
-    return search(getRoot(), data);
+
+list<Data*> AVLTree::search(string selection) {
+    list<Data*> data;
+    return search(getRoot(), selection, data);
 }
