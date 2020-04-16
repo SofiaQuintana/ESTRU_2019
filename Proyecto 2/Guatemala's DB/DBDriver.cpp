@@ -1,7 +1,9 @@
 #include "DBDriver.hpp"
+#include <sstream>
 
 DBDriver::DBDriver(QueryDriver* queries) {
     this -> queries = queries;
+    this -> key = 0;
 }
 
 /* Recibe como parametro el nombre de la nueva base de datos
@@ -43,6 +45,7 @@ Table* DBDriver::getSelectedTable(string name) {
             return aux;
         }
     }
+    return NULL;
 }
 
 string DBDriver::getDatabases() {
@@ -94,11 +97,44 @@ void DBDriver::createColumn(string name, string type, Table* table) {
 }
 
 string DBDriver::insertData(string query) {
+    int counter = 1;
+    Data* data;
     string message;
+    Hashtable* hashTable;
     vector<string> words = queries -> insertWords(query);
-    for(int i = 0; i < words.size(); i++) {
-        message += words[i] + ", ";
-    }
     selectedTable = getSelectedTable(words[0]);
-    return message;
+    if(selectedTable == NULL) {
+        return "\n---Esta tabla no existe---\n";
+    } else {
+        columns = selectedTable -> getColumns();
+        hashTable = selectedTable -> getHash();
+        while(counter < words.size()) {
+            key++;
+            list<Column*>::iterator it;
+            for(it = columns.begin(); it != columns.end(); it++) {
+                Column* aux = *it;
+                stringstream stream(words[counter+2]);
+                if(aux -> getName() == words[counter]) {
+                   if(aux -> getType() == "string") {
+                       data = new Data(words[counter+2],' ',0.0,0, key, aux -> getName());
+                   } else if(aux -> getType() == "int") {
+                       int number = 0;
+                       stream >> number;
+                       data = new Data("",' ',0.0,number,key, aux -> getName());
+                   } else if(aux -> getType() == "char") {
+                       double number;
+                       stream >> number;
+                       data = new Data("",' ',number,0,key,aux -> getName());
+                   } else if(aux -> getType() == "char") {
+                       char carac;
+                       stream >> carac;
+                       data = new Data("",carac,0.0,0,key, aux -> getName());
+                   }
+                }
+            }
+            hashTable -> addData(data);
+            counter++;
+        }
+        return "\n---Datos insertados con exito---\n";
+    }
 }

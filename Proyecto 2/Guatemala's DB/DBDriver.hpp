@@ -18,6 +18,7 @@ class DBDriver {
         Column* selectedColumn; 
         list<Column*> columns;
         void createTable(vector<string>);
+        int key;
 
     public:
         DBDriver(QueryDriver*);
