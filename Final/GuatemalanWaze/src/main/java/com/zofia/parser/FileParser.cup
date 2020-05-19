@@ -1,0 +1,60 @@
+package com.zofia.parser;
+import java_cup.runtime.Symbol;
+import com.zofia.lexer.FileLexer;
+import com.zofia.drivers.VertexDriver;
+
+parser code {:
+    private VertexDriver driver;
+    private int id;
+
+    public FileParser(FileLexer lexer) {
+        super(lexer);
+        this.driver = new VertexDriver();
+        this.id = 1;
+    }
+
+    public void generalDriver(String name, double amount) {
+        if(id == 1 || id == 2) {
+            driver.addNames(name, id);
+            id++;
+        } else if(id >= 3 && id < 7) {
+            driver.addAmount(amount, id);
+            id++;
+        } else {
+            id = 1;
+            generalDriver(name, amount);
+        }
+    }
+
+    public VertexDriver getDriver() {
+        return driver;
+    }
+
+    public void syntax_error(Symbol symbol) {
+        /* Pendiente */
+    }
+:}
+
+/* Terminales... (tokens returned by the scanner) */
+terminal String     LESSTHAN, GREATERTHAN, VERTICALBAR, PLACE, INT, DOUBLE;
+
+/* No Terminales... */
+non terminal        starting, structure, place, amount, last, type;
+
+/* Grammar */
+start with starting;
+
+/* --------------------------------------GENERAL FILE STRUCTURE--------------------------------------------*/
+
+starting ::= structure;
+structure ::= place VERTICALBAR place VERTICALBAR amount VERTICALBAR amount VERTICALBAR amount VERTICALBAR last;
+place ::= LESSTHAN PLACE:p {: generalDriver(p, 0); :} GREATERTHAN 
+          ;
+amount ::= LESSTHAN type GREATERTHAN 
+           ;
+last ::= amount structure
+         | amount 
+         ;
+type ::= INT:d {: generalDriver("", Double.valueOf(d)); :}
+         | DOUBLE:d {: generalDriver("", Double.valueOf(d)); :}
+         ;

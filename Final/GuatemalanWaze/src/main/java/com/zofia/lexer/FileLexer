@@ -1,0 +1,58 @@
+package com.zofia.lexer;
+import java_cup.runtime.*;
+import com.zofia.parser.sym;
+
+%%//Area Break
+
+%public
+%class FileLexer
+%cup
+%cupdebug
+%line
+%column
+
+/*Identifiers*/
+Letter = [a-zA-Z]
+Number = [1-9]
+LineTerminator = \r|\n|\r\n 
+WhiteSpace = {LineTerminator} | [ \t\f\b]
+Place = ({Letter})({Letter} | " ")*
+Int = ({Number})({Number}|"0")* | 0
+Double = ({Number})({Number} | "0")*(".")({Number} | "0")* | ("0.")({Number} | "0")*
+
+%{
+    private Symbol symbol(int type) {
+        return new Symbol(type, yyline+1, yycolumn+1);
+    }
+
+    private Symbol symbol(int type, Object value) {
+        return new Symbol(type, yyline+1, yycolumn+1, value);
+    }
+
+    private void printToken(String token){
+        System.out.println(token);
+    }
+
+    private void error(String value, int line, int column) {
+        /* Pendiente */
+    }
+%}
+
+%%//Area Break
+
+/*Lexical Rules*/
+
+<YYINITIAL> {
+    /* Signs */
+    "<"                         { printToken("<"); return symbol(sym.LESSTHAN, "<");}
+    ">"                         { printToken(">"); return symbol(sym.GREATERTHAN, ">");}
+    "|"                         { printToken("|"); return symbol(sym.VERTICALBAR, "|");}
+    /* Others */
+    {Place}                     { printToken("Place: " + yytext()); return symbol(sym.PLACE, yytext());}
+    {Int}                       { printToken(yytext()); return symbol(sym.INT, yytext());}
+    {Double}                    { printToken(yytext()); return symbol(sym.DOUBLE, yytext());}
+    {WhiteSpace}                { /*do nothing*/ }
+    .                           { printToken("ERROR: " + yytext()); error(yytext(), yyline+1, yycolumn+1); }
+}
+
+    <<EOF>>                     { return symbol(sym.EOF); } 
